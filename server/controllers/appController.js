@@ -2,7 +2,7 @@ import UserModel from "../model/User.model.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 import ENV from '../config.js'
-
+import otpGenerator from 'otp-generator'
 
 //middleware:verify user
 
@@ -151,6 +151,31 @@ export async function updateUser(req,res){
     }
 }
 
-export async function generateOTPl(req,res){
+export async function generateOTP(req,res){
+    req.app.locals.OTP = await otpGenerator.generate(6,{lowerCaseAlphabets: false, upperCaseAlphabets : false, specialChars : false})
+    res.status(201).send({code : req.app.locals.OTP})
+
+}
+
+export async function verifyOTP (req,res){
+    const {code} = req.query;
+    if(parseInt(req.app.locals.OTP) == parseInt(code)){
+        req.app.locals.resetSession = true;
+        return res.status(201).send({msg: 'verify Siccessfully'})
+    }else{
+        return res.status(201).send({errie :"Invalid OTP"})
+    }
+}
+
+export async function createResetSession (req,res){
+    if(req.app.locals.resetSession){
+        req.app.locals.resetSession =false;
+        return res.status(201).send({msg: "Access Granted"})
+    } else{
+        return res.status(400).send({error :"Session expired"});
+    }
+}
+
+export async function resetPassword(req,res){
 
 }
