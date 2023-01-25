@@ -5,6 +5,7 @@ import styles from '../styles/Username.module.css';
 import {Toaster} from 'react-hot-toast';
 import {useFormik} from 'formik'; // This library is use for validate user input data
 import { usernameValidate } from "../helper/validate";
+import { useAuthStore } from "../store/store.js";
 
 export default function Username() {
   const formik = useFormik({
