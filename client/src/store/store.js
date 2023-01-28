@@ -7,3 +7,16 @@ export const useAuthStore = create((set) => ({
     },
     setUsername : (name) => set((state) => ({ auth : { ...state.auth, username : name }})) 
 }))
+
+
+// To understand  mora about above function look at bellow part
+// export const useAuthStore = create((set) => {
+//     return({
+//     auth : {
+//         username : '',
+//         active : false
+//     },
+//     setUsername : (name) => set((state) => ({ auth : { ...state.auth, username : name }})) 
+// })
+// }
+// )

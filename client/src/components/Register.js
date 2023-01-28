@@ -26,6 +26,7 @@ export default function Register() {
     validateOnChange: false,
     onSubmit : async values => {
       values = await Object.assign(values, { profile : file || ''}) // After successfully uploaded file, we create a new object(profile) and assign that objecct into values object variable
+      console.log(values)
       // let registerPromise = registerUser(values)
       // toast.promise(registerPromise, {
       //   loading: 'Creating...',

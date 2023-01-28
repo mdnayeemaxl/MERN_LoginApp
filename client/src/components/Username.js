@@ -1,13 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React , {useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import avatar from '../assets/profile.png';
 import styles from '../styles/Username.module.css';
 import {Toaster} from 'react-hot-toast';
 import {useFormik} from 'formik'; // This library is use for validate user input data
 import { usernameValidate } from "../helper/validate";
 import { useAuthStore } from "../store/store.js";
+import { authenticate } from "../helper/helper.js";
 
 export default function Username() {
+
+  const setUsername =useAuthStore(state => state.setUsername)
+  const navigate= useNavigate();
+
   const formik = useFormik({
     initialValues : {
       username : ''
@@ -17,8 +22,9 @@ export default function Username() {
     validateOnBlur : false,
     validateOnChange : false,
     onSubmit : async values => {
-      console.log(values)
-    },
+    setUsername(values.username); //when we get valid user then we redirect user to password component
+    navigate('/password');
+    }
   })
     return (
         <div className="container mx-auto">
