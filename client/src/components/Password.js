@@ -6,7 +6,8 @@ import {Toaster} from 'react-hot-toast';
 import {useFormik} from 'formik'; // This library is use for validate user input data
 import { passwordValidate } from "../helper/validate";
 import useFetch  from "../hooks/fetch.hook";
-import {useAuthStore} from '../store/store'
+import {useAuthStore} from '../store/store';
+import { verifyPassword } from "../helper/helper";
 
 export default function Password() {
   const {username} = useAuthStore(state => state.auth)
