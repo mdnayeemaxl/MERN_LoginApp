@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import avatar from '../assets/profile.png';
 import styles from '../styles/Username.module.css';
-import {Toaster} from 'react-hot-toast';
+import toast, {Toaster} from 'react-hot-toast';
 import {useFormik} from 'formik'; // This library is use for validate user input data
 import { passwordValidate } from "../helper/validate";
 import useFetch  from "../hooks/fetch.hook";
@@ -22,8 +22,17 @@ export default function Password() {
     validateOnBlur : false,
     validateOnChange : false,
     onSubmit : async values => {
-      console.log(values)
-    },
+    let loginPromise = verifyPassword({username, password : values.password})
+    toast.promise(loginPromise,{
+      loading: 'Checking.....',
+      success : <b>Login Successfully....!</b>,
+      error : <b> Passeord Not Match!</b>
+    });
+    loginPromise.then(res => {
+      let {token} = res.data;
+      localStorage.setItem('token',token)
+    })
+    }
   })
   if(isLoading) return <h1 className="text-2xl font-bold"> is Loading</h1>;
   if(serverError) return <h1 className="text-xl text-red-500">{serverError.message} </h1>
