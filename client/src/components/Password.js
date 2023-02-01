@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 import avatar from '../assets/profile.png';
 import styles from '../styles/Username.module.css';
 import toast, {Toaster} from 'react-hot-toast';
@@ -10,6 +10,7 @@ import {useAuthStore} from '../store/store';
 import { verifyPassword } from "../helper/helper";
 
 export default function Password() {
+  const navigate = useNavigate()
   const {username} = useAuthStore(state => state.auth)
   const [{isLoading, apiData, serverError}]= useFetch(`/user/${username}`)
 
@@ -31,6 +32,7 @@ export default function Password() {
     loginPromise.then(res => {
       let {token} = res.data;
       localStorage.setItem('token',token)
+      navigate('/profile')
     })
     }
   })
