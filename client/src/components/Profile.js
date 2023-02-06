@@ -39,7 +39,6 @@ export default function Profile() {
         success : <b>Update Successfully...!</b>,
         error: <b>Could not Update!</b>
       });
-
     }
   })
 

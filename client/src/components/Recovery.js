@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import avatar from '../assets/profile.png';
 import styles from '../styles/Username.module.css';
-import {Toaster} from 'react-hot-toast';
+import toast,{Toaster} from 'react-hot-toast';
 import {useFormik} from 'formik'; // This library is use for validate user input data
 import { passwordValidate } from "../helper/validate";
+import { useAuthStore } from "../store/store";
+import { generateOTP } from "../helper/helper";
 
 export default function Recovery() {
+  const [username] = useAuthStore(state => state.auth);
+  const [OTP,setOTP] = useState();
+  useEffect(()=>{
+    generateOTP(username).then ((OTP) =>{
+      if(OTP) return toast.success('OTP has send to your Email!!!');
+      return toast.error('Problem while generating OTP')
+    })
+  },[username]);
+
+
   const formik = useFormik({
     initialValues : {
       password : ''
@@ -38,7 +50,7 @@ export default function Recovery() {
                         <span className="py-4 text-sm text-left text-gray-500">
                             Enter 6 digit OTP sent to your Email Address.
                         </span>
-                        <input className={styles.textbox} type="password" placeholder='OTP'/>
+                        <input onChange ={(e) => setOTP(e.target.value)} className={styles.textbox} type="password" placeholder='OTP'/>
                     </div>
                       <button className={styles.btn} type='submit'>Recover</button>
                   </div>
